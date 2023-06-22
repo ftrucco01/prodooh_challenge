@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TemplateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,10 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/hello', function () {
-    return '¡Hola Mundo!';
+Route::get('/', function () {
+    return view('index');
 });
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/templates/{size}', function ($size) {
+    return app(TemplateController::class)->show($size);
 });
