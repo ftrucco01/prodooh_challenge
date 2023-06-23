@@ -1,3 +1,10 @@
+## Description
+
+This is a code challenge for Prodooh company
+
+Code challenge description (Spanish version): public/code_challange_description_spanish.pdf
+
+
 ## Installation
 
 To install and set up the project, follow the steps below:
