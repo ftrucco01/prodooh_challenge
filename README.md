@@ -12,13 +12,13 @@ To install and set up the project, follow the steps below:
 1. Clone the repository:
 
 ```shell
-git clone <repository-url>
+git clone git@github.com:ftrucco01/prodooh_challenge.git
 ```
 
 2. Navigate to the project directory:
 
 ```shell
-cd project-directory
+cd prodooh_challenge/laravel
 ```
 
 3. Install the dependencies using Composer:
