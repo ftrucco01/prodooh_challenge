@@ -11,8 +11,9 @@ use Illuminate\Support\Facades\DB;
 
 /**
  * Class ImageService
- *
  * This class handles the generation and retrieval of images.
+ * 
+ * @OA\Tag(name="Nombre del tag")
  */
 class ImageService
 {
@@ -113,10 +114,6 @@ class ImageService
             // Save the generated image to a file
             $filename = public_path("/images/{$dimensionsPlain}.png");
             file_put_contents($filename, $imageData);
-        
-            return response()->json([
-                'message' => 'Image generated successfully'
-            ], 201);
         } catch (\Exception $e) {
             // Handle the exception and return a JSON response with the error message
             throw new \Exception( $e->getMessage(), $e->getCode() );

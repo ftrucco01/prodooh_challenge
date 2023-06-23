@@ -39,7 +39,9 @@ class ImageController extends Controller
             $this->imageService->generateImage($request);
     
             return response()->json([
-                'message' => 'Image generated successfully'
+                'message' => 'Image generated successfully',
+                'status' => true,
+                'code' => 201
             ], 201);
         } catch (\Exception $e) {
             return response()->json([

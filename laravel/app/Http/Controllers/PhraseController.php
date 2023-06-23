@@ -4,10 +4,23 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Phrases;
-use Illuminate\Validation\ValidationException;
+use App\Services\PhraseService;
 
 class PhraseController extends Controller
 {
+    protected $phraseService;
+
+    /**
+     * Create a new instance of the controller.
+     *
+     * @param PhraseService $phraseService The phrase service instance.
+     * @return void
+     */
+    public function __construct(PhraseService $phraseService)
+    {
+        $this->phraseService = $phraseService;
+    }
+
     /**
      * Store a new phrase.
      *
@@ -17,25 +30,19 @@ class PhraseController extends Controller
     public function store(Request $request)
     {
         try {
-            $request->validate([
-                'phrase' => 'required|string|max:255',
-                'background' => 'required|url',
-                'avatar' => 'required|url'
-            ]);
-        } catch (ValidationException $e) {
-            return response()->json(['errors' => $e->errors()], 422);
+            $this->phraseService->store($request);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+                'status' => false,
+                'code' => $e->getCode()
+            ], $e->getCode());
         }
-
-        $phrase = new Phrases();
-        $phrase->phrase = $request->input('phrase');
-        $phrase->background = $request->input('background');
-        $phrase->avatar = $request->input('avatar');
-
-        $phrase->save();
 
         return response()->json([
             'message' => 'Phrase created successfully',
-            'data' => $phrase->only(['phrase', 'background', 'avatar'])
+            'status' => true,
+            'code' => 201
         ], 201);
     }
     
@@ -47,10 +54,20 @@ class PhraseController extends Controller
      */
     public function softDelete($id)
     {
-        $phrase = Phrases::findOrFail($id);
-        $phrase->deleted_at = now();
-        $phrase->save();
+        try{
+            $this->phraseService->softDelete($id);
+        }catch( \Exception $e ){
+            return response()->json([
+                'message' => $e->getMessage(),
+                'status' => false,
+                'code' => $e->getCode()
+            ], $e->getCode());
+        }
 
-        return response()->json(['message' => 'Record logically deleted']);
+        return response()->json([
+            'message' => 'Record logically deleted',
+            'status' => true,
+            'code' => 201
+        ]);
     }
 }
