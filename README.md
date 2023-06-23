@@ -1,10 +1,3 @@
-## Description
-This is a code challenge for Prodooh company.
-
-Video demo: public/video/demo_video.webm
-
-Code challenge description (Spanish version): public/code_challenge_spanish_description.pdf
-
 ## Installation
 
 To install and set up the project, follow the steps below:
@@ -12,13 +5,13 @@ To install and set up the project, follow the steps below:
 1. Clone the repository:
 
 ```shell
-git clone git@github.com:ftrucco01/prodooh_challenge.git
+git clone <repository-url>
 ```
 
 2. Navigate to the project directory:
 
 ```shell
-cd prodooh_challenge
+cd project-directory
 ```
 
 3. Install the dependencies using Composer:
