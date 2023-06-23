@@ -45,9 +45,10 @@ div.avatar {
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
     var createImageUrl = "{{ url('api/create/images') }}";
+    var loginUrl = "{{ url('api/login') }}";
     var dimensions = "{{ $dimensions['width'] }}x{{ $dimensions['height'] }}";
     var phraseId = {{$phraseId}};
-    
+
   </script>
   <script src="{{ asset('js/custom.js') }}"></script>
 @endif

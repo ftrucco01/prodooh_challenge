@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Phrases;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
 
 class PhraseController extends Controller
 {
-
+    /**
+     * Store a new phrase.
+     *
+     * @param  Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(Request $request)
     {
         try {
@@ -27,7 +30,6 @@ class PhraseController extends Controller
         $phrase->phrase = $request->input('phrase');
         $phrase->background = $request->input('background');
         $phrase->avatar = $request->input('avatar');
-        $phrase->user_id = 1;
 
         $phrase->save();
 
@@ -36,18 +38,19 @@ class PhraseController extends Controller
             'data' => $phrase->only(['phrase', 'background', 'avatar'])
         ], 201);
     }
-
-    public function getRandomPhrase()
-    {
-        $randomPhrase = DB::table('phrases')->inRandomOrder()->first();
-
-        return response()->json([
-            'data' => $randomPhrase
-        ], 200);
-    }
     
+    /**
+     * Soft delete a phrase.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function softDelete($id)
     {
-        // Lógica para realizar eliminación lógica de un registro
+        $phrase = Phrases::findOrFail($id);
+        $phrase->deleted_at = now();
+        $phrase->save();
+
+        return response()->json(['message' => 'Record logically deleted']);
     }
 }

@@ -10,9 +10,17 @@ class UserSeeder extends Seeder
     public function run()
     {
         $user = new User();
-        $user->name = 'UserMock';
-        $user->email = 'user@mock.com';
+        $user->name = 'Image Creator';
+        $user->email = 'creator@mock.com';
         $user->password = bcrypt('password');
+        $user->role = 'image_generator';
+        $user->save();
+
+        $user = new User();
+        $user->name = 'Admin';
+        $user->email = 'admin@mock.com';
+        $user->password = bcrypt('password');
+        $user->role = 'admin';
         $user->save();
     }
 }

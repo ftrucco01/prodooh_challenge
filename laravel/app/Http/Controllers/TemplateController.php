@@ -2,58 +2,37 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Http;
+use App\Services\ImageService;
 
+/**
+ * Class TemplateController
+ * 
+ * This controller handles the display of templates.
+ */
 class TemplateController extends Controller
 {
+    protected $imageService;
+
+    /**
+     * Create a new instance of the controller.
+     *
+     * @param ImageService $imageService The image service instance.
+     * @return void
+     */
+    public function __construct(ImageService $imageService)
+    {
+        $this->imageService = $imageService;
+    }
+
+    /**
+     * Display the template for the specified size.
+     *
+     * @param string $size The size of the template.
+     * @return \Illuminate\Http\Response The HTML content of the template.
+     */
     public function show($size)
     {
-        $dimensionsPlain = $size;
-        $dimensionMappings = [
-            '1920x1080' => [
-                'width' => 1920,
-                'height' => 1080
-            ],
-            '1280x720' => [
-                'width' => 1280,
-                'height' => 720
-            ],
-            '720x480' => [
-                'width' => 720,
-                'height' => 480
-            ]
-        ];
-        
-        $dimensions = $dimensionMappings[$dimensionsPlain] ?? [
-            'width' => 720,
-            'height' => 480
-        ];
-
-
-        $randomPhrase = DB::table('phrases')->inRandomOrder()->first();
-
-        // Downdload background
-        $externalImage = Http::get($randomPhrase->background);
-        $filename = public_path('images/background.png');
-        file_put_contents($filename, $externalImage->body());
-
-        //Download avatar
-        $externalImage = Http::get($randomPhrase->avatar);
-        $filename = public_path('images/avatar.png');
-        file_put_contents($filename, $externalImage->body());
-
-        $data = [
-            'background' => asset('images/background.png'),
-            'avatar' => asset('images/avatar.png'),
-            'phrase' => $randomPhrase->phrase,
-            'phraseId' => $randomPhrase->id,
-            'dimensions' => $dimensions,
-            'isPrinting' => false
-        ];
-
-        $html = View::make('image_template', $data)->render();
+        $html = $this->imageService->getTemplate( $size );
 
         return response($html);
     }

@@ -1,8 +1,4 @@
 <?php
-
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\TemplateController;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,10 +10,11 @@ use App\Http\Controllers\TemplateController;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TemplateController;
 
+//Retrieve templates by size.
 Route::get('/templates/{size}', function ($size) {
     return app(TemplateController::class)->show($size);
 });
+
