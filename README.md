@@ -2,6 +2,8 @@
 
 This is a code challenge for Prodooh company
 
+Video demo: public/demo_video.webm
+
 Code challenge description (Spanish version): public/code_challange_description_spanish.pdf
 
 
